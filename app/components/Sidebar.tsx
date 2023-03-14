@@ -4,56 +4,59 @@ import { Flex, Text } from '@chakra-ui/layout'
 import { IconButton } from '@chakra-ui/button'
 import { Button, Stack } from '@chakra-ui/react'
 import { Avatar } from '@chakra-ui/avatar'
-
 import { signOut } from 'firebase/auth'
-import { auth } from '@/firebaseconfig'
-import { useAuthState } from 'react-firebase-hooks/auth';
+import { useAuthState } from 'react-firebase-hooks/auth'
+import { BiLogOut } from 'react-icons/bi'
 
-import { AiOutlineLogout } from 'react-icons/ai';
+import { auth } from '@/firebaseconfig'
+
 import ChatCard from './ChatCard'
 
 export default function Sidebar() {
-  const [user] = useAuthState(auth);
-  console.log(user);
+  const [user] = useAuthState(auth)
+
   return (
     <Flex
-      w="300px" h="100vh"
-      borderEnd="1px solid" borderColor="gray.300"
+      bg="gray.700"
+      borderColor="gray.300"
+      borderEnd="1px solid"
       direction="column"
+      h="100vh"
+      w="300px"
     >
-
       <Flex
-        h="81px" w="100%"
         align="center"
+        borderBottom="1px solid"
+        borderColor="gray.300"
+        h="81px"
         justifyContent="space-between"
-        borderBottom="1px solid" borderColor="gray.300"
         p={3}
+        w="100%"
       >
-        <Flex
-          align="center"
-        >
-          <Avatar src={user?.photoURL || ""} marginEnd={3} />
-          <Text>{user?.displayName}</Text>
+        <Flex align="center">
+          <Avatar marginEnd={3} src={user?.photoURL || ''} />
+          <Text color="white">{user?.displayName || user?.email}</Text>
         </Flex>
         <IconButton
-          icon={<AiOutlineLogout size="30px" />}
-          aria-label='LogOut' isRound
+          isRound
+          aria-label="LogOut"
+          icon={<BiLogOut color="white" size="30px" />}
+          variant="ghost"
           onClick={() => signOut(auth)}
         />
       </Flex>
 
-      <Button m={5} p={4}>
+      <Button bg="gray.500" color="white" m={5} p={4}>
         New Chat
       </Button>
 
       <Flex
         direction="column"
-        p={2}
         flex={1}
         overflowY="scroll"
+        p={2}
         sx={{
-          "::-WebKit-scrollbar":
-            { display: "none" }
+          '::-WebKit-scrollbar': { display: 'none' },
         }}
       >
         <Stack spacing={2}>
@@ -74,5 +77,4 @@ export default function Sidebar() {
       </Flex>
     </Flex>
   )
-};
-
+}

@@ -5,13 +5,14 @@ import { Avatar } from '@chakra-ui/avatar'
 export default function ChatCard() {
   return (
     <Flex
-      _hover={{ bg: "gray.500", cursor: "pointer" }}
-      p={4}
-      bg="gray.100"
-      rounded={10}
+      _hover={{ bg: 'gray.200', cursor: 'pointer' }}
       align="center"
+      bg="gray.500"
+      color="white"
+      p={4}
+      rounded={10}
     >
-      <Avatar src="" marginEnd={3} />
+      <Avatar marginEnd={3} src="" />
       <Text>Hello</Text>
     </Flex>
   )

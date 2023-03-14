@@ -2,31 +2,27 @@
 import { Flex } from '@chakra-ui/layout'
 import { FormControl, Input } from '@chakra-ui/react'
 import { IconButton } from '@chakra-ui/button'
-import { AiOutlineSend } from 'react-icons/ai';
+import { AiOutlineSend } from 'react-icons/ai'
 
 export default function Bottombar() {
   return (
-
-    <FormControl
-      p={3}
-      borderTop="1px solid"
-      borderColor="gray.300"
-      bg="gray.100"
-    >
+    <FormControl bg="gray.700" borderColor="gray.300" borderTop="1px solid" p={3}>
       <Flex direction="row">
         <Input
-          placeholder='Type your message here...'
+          autoComplete="off"
           border="1px solid"
           borderColor="gray.300"
+          color="white"
           marginEnd={2}
-          autoComplete="off"
+          placeholder="Type your message here..."
         />
         <IconButton
-          icon={<AiOutlineSend />}
-          type="submit"
-          aria-label='Send message...'
+          aria-label="Send message..."
           border="1px solid"
           borderColor="gray.300"
+          icon={<AiOutlineSend color="white" size="25px" />}
+          type="submit"
+          variant="ghost"
         />
       </Flex>
     </FormControl>
