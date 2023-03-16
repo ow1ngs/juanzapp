@@ -1,3 +1,5 @@
+# JuanZapp
+
 This is a sample project created with NextJs 13, TypeScript, ChakraUI and Prettier/ESlint. The objective of this was create a chat that is implemented with Firebase with Auth and "real" time fetching of data.
 
 ## Getting Started
