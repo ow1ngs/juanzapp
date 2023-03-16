@@ -15,9 +15,9 @@ export default function Login() {
     <Center bgImage="background.jpg" h="100vh">
       <Flex
         align="center"
-        bgColor="gray.900"
+        bgColor="brand.main"
         border="1px solid"
-        borderColor="gray.300"
+        borderColor="brand.border"
         boxShadow="lg"
         direction="column"
         h="500px"
