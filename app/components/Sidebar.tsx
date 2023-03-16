@@ -1,24 +1,57 @@
 'use client'
-
 import { Flex, Text } from '@chakra-ui/layout'
 import { IconButton } from '@chakra-ui/button'
 import { Button, Stack } from '@chakra-ui/react'
 import { Avatar } from '@chakra-ui/avatar'
-import { signOut } from 'firebase/auth'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { BiLogOut } from 'react-icons/bi'
+import { signOut } from 'firebase/auth'
+import { useCollection } from 'react-firebase-hooks/firestore'
+import { collection, addDoc } from 'firebase/firestore'
+import { useRouter } from 'next/navigation'
 
-import { auth } from '@/firebaseconfig'
+import { auth, db } from '@/firebaseconfig'
+import { getOtherEmailOrName } from '@/utils/getOtherEmailOrName'
 
 import ChatCard from './ChatCard'
 
+interface Chat {
+  id: string
+  users: Array<string>
+}
+
 export default function Sidebar() {
+  const defaultChat: Chat[] = [
+    {
+      id: '0',
+      users: [''],
+    },
+  ]
   const [user] = useAuthState(auth)
+  const [snapshot] = useCollection(collection(db, 'chats'))
+
+  const chatExists = (email: string) => {
+    chats?.find((chat) => chat.users.includes(user?.email || '') && chat.users.includes(email))
+  }
+
+  const newChat = async () => {
+    const input = prompt('Enter email of chat recipient')
+
+    if (!chatExists && user?.email !== input)
+      await addDoc(collection(db, 'chats'), { users: [user?.email, input] })
+  }
+  const chats: Chat[] =
+    snapshot?.docs.map((doc) => ({ id: doc.id, ...doc.data() } as Chat)) || defaultChat
+
+  const router = useRouter()
+  const redirect = (id: string) => {
+    router.push(`/chat/${id}`)
+  }
 
   return (
     <Flex
-      bg="gray.700"
-      borderColor="gray.300"
+      bg="brand.main"
+      borderColor="brand.border"
       borderEnd="1px solid"
       direction="column"
       h="100vh"
@@ -27,7 +60,7 @@ export default function Sidebar() {
       <Flex
         align="center"
         borderBottom="1px solid"
-        borderColor="gray.300"
+        borderColor="brand.border"
         h="81px"
         justifyContent="space-between"
         p={3}
@@ -42,11 +75,14 @@ export default function Sidebar() {
           aria-label="LogOut"
           icon={<BiLogOut color="white" size="30px" />}
           variant="ghost"
-          onClick={() => signOut(auth)}
+          onClick={() => {
+            signOut(auth)
+            router.push('/')
+          }}
         />
       </Flex>
 
-      <Button bg="gray.500" color="white" m={5} p={4}>
+      <Button color="white" colorScheme={'whatsapp'} m={5} p={4} onClick={() => newChat()}>
         New Chat
       </Button>
 
@@ -60,19 +96,17 @@ export default function Sidebar() {
         }}
       >
         <Stack spacing={2}>
-          <ChatCard />
-          <ChatCard />
-          <ChatCard />
-          <ChatCard />
-          <ChatCard />
-          <ChatCard />
-          <ChatCard />
-          <ChatCard />
-          <ChatCard />
-          <ChatCard />
-          <ChatCard />
-          <ChatCard />
-          <ChatCard />
+          {user &&
+            chats
+              ?.filter((chat) => chat.users.includes(user.email || ''))
+              .map((chat: Chat) => (
+                <ChatCard
+                  key={chat.id}
+                  displayName={getOtherEmailOrName(chat.users, user ? user : undefined)}
+                  icon=""
+                  onClick={() => redirect(chat.id)}
+                />
+              ))}
         </Stack>
       </Flex>
     </Flex>

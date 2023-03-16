@@ -2,20 +2,24 @@
 import { Flex, Heading } from '@chakra-ui/layout'
 import { Avatar } from '@chakra-ui/avatar'
 
-export default function Topbar() {
+interface TopbarProps {
+  email: string
+}
+
+export default function Topbar({ email }: TopbarProps) {
   return (
     <Flex
       align="center"
-      bg="gray.700"
+      bg="brand.main"
       borderBottom="1px solid"
-      borderColor="gray.300"
+      borderColor="brand.border"
       h="81px"
       p={5}
       w="100%"
     >
       <Avatar marginEnd={3} src="" />
       <Heading color="white" size="sm">
-        User@gmail.com
+        {email}
       </Heading>
     </Flex>
   )

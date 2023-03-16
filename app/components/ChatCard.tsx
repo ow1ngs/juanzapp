@@ -2,18 +2,25 @@
 import { Flex, Text } from '@chakra-ui/layout'
 import { Avatar } from '@chakra-ui/avatar'
 
-export default function ChatCard() {
+interface ChatCardProps {
+  displayName: string
+  icon: string
+  onClick: Function
+}
+
+export default function ChatCard({ displayName, icon, onClick }: ChatCardProps) {
   return (
     <Flex
-      _hover={{ bg: 'gray.200', cursor: 'pointer' }}
+      _hover={{ bg: 'brand.border', cursor: 'pointer' }}
       align="center"
-      bg="gray.500"
+      bg="brand.secondary"
       color="white"
       p={4}
       rounded={10}
+      onClick={() => onClick()}
     >
-      <Avatar marginEnd={3} src="" />
-      <Text>Hello</Text>
+      <Avatar marginEnd={3} src={icon} />
+      <Text>{displayName}</Text>
     </Flex>
   )
 }
