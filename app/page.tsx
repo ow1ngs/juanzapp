@@ -6,6 +6,7 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from '@/firebaseconfig'
 
 import Login from './components/Login'
+import ChatLayout from './chat/layout'
 import Chat from './chat/page'
 
 export default function Home() {
@@ -30,5 +31,9 @@ export default function Home() {
     )
   }
 
-  return <Chat />
+  return (
+    <ChatLayout>
+      <Chat />
+    </ChatLayout>
+  )
 }

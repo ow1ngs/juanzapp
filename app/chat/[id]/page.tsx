@@ -6,7 +6,6 @@ import { collection, doc, orderBy, query } from 'firebase/firestore'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useEffect, useRef } from 'react'
 
-import Sidebar from '@/app/components/Sidebar'
 import Topbar from '@/app/components/Topbar'
 import Bottombar from '@/app/components/Bottombar'
 import Message from '@/app/components/Message'
@@ -54,27 +53,23 @@ export default function ChatId() {
   }, [messages])
 
   return (
-    <Flex h="100vh">
-      <Sidebar />
-
-      <Flex bgImage="../background.jpg" direction="column" flex={1}>
-        <Topbar email={getOtherEmailOrName(chat?.users, user ? user : undefined)} />
-        <Flex
-          direction="column"
-          flex={1}
-          opacity="0.9"
-          overflowY="scroll"
-          p={3}
-          sx={{
-            '::-WebKit-scrollbar': { display: 'none' },
-          }}
-        >
-          {getMessages()}
-          <div ref={bottomOfChat} />
-        </Flex>
-
-        <Bottombar email={user?.email || ''} id={id || ''} />
+    <Flex bgImage="../background.jpg" direction="column" flex={1}>
+      <Topbar email={getOtherEmailOrName(chat?.users, user ? user : undefined)} />
+      <Flex
+        direction="column"
+        flex={1}
+        opacity="0.9"
+        overflowY="scroll"
+        p={3}
+        sx={{
+          '::-WebKit-scrollbar': { display: 'none' },
+        }}
+      >
+        {getMessages()}
+        <div ref={bottomOfChat} />
       </Flex>
+
+      <Bottombar email={user?.email || ''} icon={user?.photoURL || ''} id={id || ''} />
     </Flex>
   )
 }
