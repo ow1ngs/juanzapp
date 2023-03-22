@@ -8,6 +8,4 @@ export const theme = extendTheme({
       border: '#808080',
     },
   },
-  initialColorMode: 'light',
-  useSystemColorMode: false,
 })
