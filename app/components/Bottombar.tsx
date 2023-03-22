@@ -11,9 +11,10 @@ import { db } from '@/firebaseconfig'
 interface BottombarProps {
   email: string
   id: string
+  icon: string
 }
 
-export default function Bottombar({ email, id }: BottombarProps) {
+export default function Bottombar({ email, id, icon }: BottombarProps) {
   const [input, setInput] = useState('')
   const sendMessage = async (e: React.FormEvent<HTMLInputElement>) => {
     e.preventDefault()
@@ -21,7 +22,7 @@ export default function Bottombar({ email, id }: BottombarProps) {
       text: input,
       sender: email,
       timestamp: serverTimestamp(),
-      senderIcon: '',
+      senderIcon: icon,
     })
     setInput('')
   }

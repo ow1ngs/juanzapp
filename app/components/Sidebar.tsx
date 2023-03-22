@@ -1,7 +1,7 @@
 'use client'
 import { Flex, Text } from '@chakra-ui/layout'
 import { IconButton } from '@chakra-ui/button'
-import { Button, Stack } from '@chakra-ui/react'
+import { Button, Stack, Divider } from '@chakra-ui/react'
 import { Avatar } from '@chakra-ui/avatar'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { BiLogOut } from 'react-icons/bi'
@@ -30,15 +30,15 @@ export default function Sidebar() {
   const [user] = useAuthState(auth)
   const [snapshot] = useCollection(collection(db, 'chats'))
 
-  const chatExists = (email: string) => {
+  const chatExists = (email: string) =>
     chats?.find((chat) => chat.users.includes(user?.email || '') && chat.users.includes(email))
-  }
 
   const newChat = async () => {
     const input = prompt('Enter email of chat recipient')
 
-    if (!chatExists && user?.email !== input)
+    if (!chatExists(input!) && user?.email !== input) {
       await addDoc(collection(db, 'chats'), { users: [user?.email, input] })
+    }
   }
   const chats: Chat[] =
     snapshot?.docs.map((doc) => ({ id: doc.id, ...doc.data() } as Chat)) || defaultChat
@@ -95,7 +95,7 @@ export default function Sidebar() {
           '::-WebKit-scrollbar': { display: 'none' },
         }}
       >
-        <Stack spacing={2}>
+        <Stack divider={<Divider />} spacing={2}>
           {user &&
             chats
               ?.filter((chat) => chat.users.includes(user.email || ''))
@@ -104,6 +104,7 @@ export default function Sidebar() {
                   key={chat.id}
                   displayName={getOtherEmailOrName(chat.users, user ? user : undefined)}
                   icon=""
+                  id={chat.id}
                   onClick={() => redirect(chat.id)}
                 />
               ))}
